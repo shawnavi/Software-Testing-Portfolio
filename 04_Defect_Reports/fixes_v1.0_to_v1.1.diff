@@ -1,0 +1,67 @@
+diff -ru v1.0/java/com/team/expensetracker/BudgetManager.java v1.1/java/com/team/expensetracker/BudgetManager.java
+--- v1.0/java/com/team/expensetracker/BudgetManager.java	2026-11-10 20:38:41
++++ v1.1/java/com/team/expensetracker/BudgetManager.java	2026-11-10 20:38:56
+@@ -50,11 +50,13 @@
+         if (!budgets.containsKey(key(category, month))) {
+             return BudgetStatus.NO_BUDGET;
+         }
+-        BigDecimal percent = percentUsed(category, month);
+-        if (percent.compareTo(FULL_PERCENT) >= 0) {
++        // Compare exact amounts. Using the rounded percentage made 799.99/1000 look like 80.00%.
++        BigDecimal limit = budgets.get(key(category, month));
++        BigDecimal spentTimes100 = spent(category, month).multiply(FULL_PERCENT);
++        if (spentTimes100.compareTo(limit.multiply(FULL_PERCENT)) > 0) {
+             return BudgetStatus.EXCEEDED;
+         }
+-        if (percent.compareTo(WARNING_PERCENT) >= 0) {
++        if (spentTimes100.compareTo(limit.multiply(WARNING_PERCENT)) >= 0) {
+             return BudgetStatus.WARNING;
+         }
+         return BudgetStatus.WITHIN;
+diff -ru v1.0/java/com/team/expensetracker/ExpenseTracker.java v1.1/java/com/team/expensetracker/ExpenseTracker.java
+--- v1.0/java/com/team/expensetracker/ExpenseTracker.java	2026-11-10 20:38:41
++++ v1.1/java/com/team/expensetracker/ExpenseTracker.java	2026-11-10 20:38:41
+@@ -55,7 +55,7 @@
+             throw new ValidationException("Start date must not be after end date");
+         }
+         return expenses.stream()
+-                .filter(e -> !e.date().isBefore(start) && e.date().isBefore(end))
++                .filter(e -> !e.date().isBefore(start) && !e.date().isAfter(end))
+                 .sorted(Comparator.comparing(Expense::date))
+                 .toList();
+     }
+diff -ru v1.0/java/com/team/expensetracker/ExpenseValidator.java v1.1/java/com/team/expensetracker/ExpenseValidator.java
+--- v1.0/java/com/team/expensetracker/ExpenseValidator.java	2026-11-10 20:38:41
++++ v1.1/java/com/team/expensetracker/ExpenseValidator.java	2026-11-10 20:38:41
+@@ -30,16 +30,16 @@
+         if (amount.scale() > 2 && amount.stripTrailingZeros().scale() > 2) {
+             throw new ValidationException("Amount can have at most 2 decimal places");
+         }
+-        if (amount.compareTo(MIN_AMOUNT) < 0 || amount.compareTo(MAX_AMOUNT) >= 0) {
++        if (amount.compareTo(MIN_AMOUNT) < 0 || amount.compareTo(MAX_AMOUNT) > 0) {
+             throw new ValidationException("Amount must be between 0.01 and 1,000,000.00");
+         }
+         if (category == null) {
+             throw new ValidationException("Category is required");
+         }
+-        if (description == null || description.isEmpty()) {
++        if (description == null || description.isBlank()) {
+             throw new ValidationException("Description is required");
+         }
+-        if (description.length() > MAX_DESCRIPTION) {
++        if (description.trim().length() > MAX_DESCRIPTION) {
+             throw new ValidationException("Description must be at most 100 characters");
+         }
+         if (date == null) {
+diff -ru v1.0/java/com/team/expensetracker/UserAccount.java v1.1/java/com/team/expensetracker/UserAccount.java
+--- v1.0/java/com/team/expensetracker/UserAccount.java	2026-11-10 20:38:41
++++ v1.1/java/com/team/expensetracker/UserAccount.java	2026-11-10 20:38:41
+@@ -41,7 +41,7 @@
+             return true;
+         }
+         failedAttempts++;
+-        if (failedAttempts > MAX_FAILED_ATTEMPTS) {
++        if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+             state = AccountState.LOCKED;
+         }
+         return false;
