@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.ReportServiceTest" time="0.004" tests="7" errors="0" skipped="0" failures="4">
+  <testcase name="TC-RP-02 category breakdown adds up each category" classname="com.team.expensetracker.ReportServiceTest" time="0.0">
+    <failure message="expected: &lt;5000.00&gt; but was: &lt;3500.50&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <5000.00> but was: <3500.50>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.team.expensetracker.ReportServiceTest.breakdown(ReportServiceTest.java:42)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+  </testcase>
+  <testcase name="TC-RP-07 zero income gives savings rate 0.00 (no divide-by-zero)" classname="com.team.expensetracker.ReportServiceTest" time="0.0"/>
+  <testcase name="TC-RP-05 month with no expenses has total 0" classname="com.team.expensetracker.ReportServiceTest" time="0.0"/>
+  <testcase name="TC-RP-04 savings rate is a percentage of income" classname="com.team.expensetracker.ReportServiceTest" time="0.001">
+    <failure message="expected: &lt;28.80&gt; but was: &lt;34.80&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <28.80> but was: <34.80>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.team.expensetracker.ReportServiceTest.savingsRate(ReportServiceTest.java:53)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+  </testcase>
+  <testcase name="TC-RP-01 monthly total includes the first and last day of the month" classname="com.team.expensetracker.ReportServiceTest" time="0.0">
+    <failure message="expected: &lt;17800.00&gt; but was: &lt;16300.50&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <17800.00> but was: <16300.50>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.team.expensetracker.ReportServiceTest.monthlyTotal(ReportServiceTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+  </testcase>
+  <testcase name="TC-RP-06 negative income is rejected" classname="com.team.expensetracker.ReportServiceTest" time="0.001"/>
+  <testcase name="TC-RP-03 savings = income - monthly total" classname="com.team.expensetracker.ReportServiceTest" time="0.0">
+    <failure message="expected: &lt;7200.00&gt; but was: &lt;8699.50&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <7200.00> but was: <8699.50>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.team.expensetracker.ReportServiceTest.savings(ReportServiceTest.java:48)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+  </testcase>
+</testsuite>

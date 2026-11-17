@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.004" tests="6" errors="0" skipped="0" failures="1">
+  <testcase name="TC-BVA-05 maximum 1,000,000.00 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.001">
+    <failure message="Unexpected exception thrown: com.team.expensetracker.ValidationException: Amount must be between 0.01 and 1,000,000.00" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Unexpected exception thrown: com.team.expensetracker.ValidationException: Amount must be between 0.01 and 1,000,000.00
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:53)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:36)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3168)
+	at com.team.expensetracker.ExpenseValidatorTest.validAmount(ExpenseValidatorTest.java:22)
+	at com.team.expensetracker.ExpenseValidatorTest$AmountBVA.atMax(ExpenseValidatorTest.java:69)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: com.team.expensetracker.ValidationException: Amount must be between 0.01 and 1,000,000.00
+	at com.team.expensetracker.ExpenseValidator.validate(ExpenseValidator.java:34)
+	at com.team.expensetracker.ExpenseValidatorTest.lambda$validAmount$0(ExpenseValidatorTest.java:22)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:49)
+	... 8 more
+]]></failure>
+  </testcase>
+  <testcase name="TC-BVA-02 minimum 0.01 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-06 just above maximum 1,000,000.01 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-03 just above minimum 0.02 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-04 just below maximum 999,999.99 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-01 just below minimum 0.00 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.001"/>
+</testsuite>

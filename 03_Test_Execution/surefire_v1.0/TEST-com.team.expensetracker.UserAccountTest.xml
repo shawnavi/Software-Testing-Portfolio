@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.UserAccountTest" time="0.01" tests="11" errors="1" skipped="0" failures="2">
+  <testcase name="TC-ST-10 invalid transition: login while already LOGGED_IN is refused" classname="com.team.expensetracker.UserAccountTest" time="0.004"/>
+  <testcase name="TC-ST-05 LOCKED + correct password -&gt; login refused" classname="com.team.expensetracker.UserAccountTest" time="0.001">
+    <failure message="Expected java.lang.IllegalStateException to be thrown, but nothing was thrown." type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Expected java.lang.IllegalStateException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at com.team.expensetracker.UserAccountTest.lockedRefusesLogin(UserAccountTest.java:57)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+  </testcase>
+  <testcase name="TC-ST-08 invalid transition: logout while LOGGED_OUT is refused" classname="com.team.expensetracker.UserAccountTest" time="0.0"/>
+  <testcase name="TC-ST-03 LOGGED_OUT + 3 wrong passwords in a row -&gt; LOCKED" classname="com.team.expensetracker.UserAccountTest" time="0.001">
+    <failure message="expected: &lt;LOCKED&gt; but was: &lt;LOGGED_OUT&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <LOCKED> but was: <LOGGED_OUT>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.team.expensetracker.UserAccountTest.lockAfterThree(UserAccountTest.java:41)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+  </testcase>
+  <testcase name="TC-ST-06 LOGGED_IN + logout -&gt; LOGGED_OUT" classname="com.team.expensetracker.UserAccountTest" time="0.0"/>
+  <testcase name="TC-ST-07 LOCKED + admin unlock -&gt; LOGGED_OUT, then login works" classname="com.team.expensetracker.UserAccountTest" time="0.0">
+    <error message="Account is not locked" type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: Account is not locked
+	at com.team.expensetracker.UserAccount.unlock(UserAccount.java:59)
+	at com.team.expensetracker.UserAccountTest.unlock(UserAccountTest.java:72)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></error>
+  </testcase>
+  <testcase name="TC-ST-09 invalid transition: unlock an account that is not locked is refused" classname="com.team.expensetracker.UserAccountTest" time="0.001"/>
+  <testcase name="TC-ST-04 2 wrong then correct -&gt; LOGGED_IN and counter reset" classname="com.team.expensetracker.UserAccountTest" time="0.0"/>
+  <testcase name="TC-ST-11 password shorter than 8 characters is rejected at sign-up" classname="com.team.expensetracker.UserAccountTest" time="0.0"/>
+  <testcase name="TC-ST-02 LOGGED_OUT + 1 wrong password -&gt; stays LOGGED_OUT" classname="com.team.expensetracker.UserAccountTest" time="0.001"/>
+  <testcase name="TC-ST-01 LOGGED_OUT + correct password -&gt; LOGGED_IN" classname="com.team.expensetracker.UserAccountTest" time="0.0"/>
+</testsuite>
