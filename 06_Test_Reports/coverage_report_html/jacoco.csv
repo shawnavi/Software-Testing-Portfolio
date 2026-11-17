@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,ReportService,0,90,1,5,0,18,1,8,0,6
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,UserAccount,9,122,2,16,3,33,3,14,1,7
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,ExpenseTracker,1,181,2,8,0,26,2,16,0,13
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,BudgetManager,2,156,2,16,1,32,2,17,0,10
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,ValidationException,0,4,0,0,0,2,0,1,0,1
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,BudgetStatus,0,27,0,0,0,2,0,1,0,1
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,Category,0,57,0,0,0,2,0,1,0,1
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,ExpenseValidator,0,111,2,22,0,25,2,13,0,3
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,Expense,0,18,0,0,0,1,0,1,0,1
+Expense Tracking and Personal Finance Management System,com.team.expensetracker,AccountState,0,21,0,0,0,2,0,1,0,1

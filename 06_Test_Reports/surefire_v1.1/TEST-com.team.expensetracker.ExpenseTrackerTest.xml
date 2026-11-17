@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.ExpenseTrackerTest" time="0.01" tests="10" errors="0" skipped="0" failures="0">
+  <testcase name="TC-FN-08 filter by category returns only that category" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.002"/>
+  <testcase name="TC-FN-06 delete an expense removes it" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.003"/>
+  <testcase name="TC-FN-02 description is saved without leading and trailing spaces" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.001"/>
+  <testcase name="TC-FN-05 edit a missing expense shows an error" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.0"/>
+  <testcase name="TC-FN-03 invalid expense is not stored" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.0"/>
+  <testcase name="TC-FN-10 date range with start after end shows an error" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.0"/>
+  <testcase name="TC-FN-01 add a valid expense stores it with a new id" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.001"/>
+  <testcase name="TC-FN-07 delete a missing expense shows an error" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.0"/>
+  <testcase name="TC-FN-04 edit an expense changes its amount" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.0"/>
+  <testcase name="TC-FN-09 date range search includes both the start and end dates" classname="com.team.expensetracker.ExpenseTrackerTest" time="0.0"/>
+</testsuite>

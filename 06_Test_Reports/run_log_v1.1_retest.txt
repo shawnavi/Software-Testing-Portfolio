@@ -1,0 +1,66 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.team:expense-tracker >----------------------
+[INFO] Building Expense Tracking and Personal Finance Management System 1.1
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ expense-tracker ---
+[INFO] argLine set to "-javaagent:/Users/shawn/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=<project>/target/jacoco.exec"
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ expense-tracker ---
+[INFO] skip non existing resourceDirectory <project>/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ expense-tracker ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 10 source files with javac [debug release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ expense-tracker ---
+[INFO] skip non existing resourceDirectory <project>/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ expense-tracker ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [debug release 17] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ expense-tracker ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running M1 Expense input validation
+[INFO] Running M1 Expense input validation Date and category - EP and BVA
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in M1 Expense input validation Date and category - EP and BVA
+[INFO] Running M1 Expense input validation Description - EP and BVA (1 to 100 characters)
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in M1 Expense input validation Description - EP and BVA (1 to 100 characters)
+[INFO] Running M1 Expense input validation Amount - Boundary Value Analysis (min 0.01, max 1,000,000.00)
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in M1 Expense input validation Amount - Boundary Value Analysis (min 0.01, max 1,000,000.00)
+[INFO] Running M1 Expense input validation Amount - Equivalence Partitioning
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in M1 Expense input validation Amount - Equivalence Partitioning
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.070 s -- in M1 Expense input validation
+[INFO] Running M2 Manage expenses
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in M2 Manage expenses
+[INFO] Running M3 Budget and alerts
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in M3 Budget and alerts
+[INFO] Running M4 Reports and savings
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in M4 Reports and savings
+[INFO] Running M5 Login state transitions
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in M5 Login state transitions
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 72, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ expense-tracker ---
+[INFO] Loading execution data file <project>/target/jacoco.exec
+[INFO] Analyzed bundle 'Expense Tracking and Personal Finance Management System' with 10 classes
+[INFO] 
+[INFO] --- jar:3.5.0:jar (default-jar) @ expense-tracker ---
+[INFO] Building jar: <project>/target/expense-tracker-1.1.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.139 s
+[INFO] Finished at: 2026-11-10T20:38:57+05:30
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.004" tests="6" errors="0" skipped="0" failures="0">
+  <testcase name="TC-EP-02 negative amount -50.00 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.0"/>
+  <testcase name="TC-EP-03 zero amount is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.001"/>
+  <testcase name="TC-EP-05 amount with 3 decimal places 10.555 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.001"/>
+  <testcase name="TC-EP-01 valid amount 500.00 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.0"/>
+  <testcase name="TC-EP-06 missing amount is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.001"/>
+  <testcase name="TC-EP-04 amount above maximum 2,500,000 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountEP" time="0.0"/>
+</testsuite>

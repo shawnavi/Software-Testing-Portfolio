@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.05" tests="8" errors="0" skipped="0" failures="0">
+  <testcase name="TC-EP-10 missing date is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.008"/>
+  <testcase name="TC-EP-09 missing category is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.0"/>
+  <testcase name="dateBoundaries(LocalDate, boolean) TC-BVA-09 date 1999-12-31 gives valid=false" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.006"/>
+  <testcase name="dateBoundaries(LocalDate, boolean) TC-BVA-09 date 2000-01-01 gives valid=true" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.001"/>
+  <testcase name="dateBoundaries(LocalDate, boolean) TC-BVA-09 date 2000-01-02 gives valid=true" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.001"/>
+  <testcase name="dateBoundaries(LocalDate, boolean) TC-BVA-09 date 2026-11-09 gives valid=true" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.001"/>
+  <testcase name="dateBoundaries(LocalDate, boolean) TC-BVA-09 date 2026-11-10 gives valid=true" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.0"/>
+  <testcase name="dateBoundaries(LocalDate, boolean) TC-BVA-09 date 2026-11-11 gives valid=false" classname="com.team.expensetracker.ExpenseValidatorTest$DateAndCategory" time="0.0"/>
+</testsuite>

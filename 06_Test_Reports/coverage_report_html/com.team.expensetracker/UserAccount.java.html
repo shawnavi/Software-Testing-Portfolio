@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserAccount.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Expense Tracking and Personal Finance Management System</a> &gt; <a href="index.source.html" class="el_package">com.team.expensetracker</a> &gt; <span class="el_source">UserAccount.java</span></div><h1>UserAccount.java</h1><pre class="source lang-java linenums">package com.team.expensetracker;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
+
+/**
+ * Login state machine.
+ *  LOGGED_OUT --correct password--&gt; LOGGED_IN
+ *  LOGGED_OUT --wrong password (3rd in a row)--&gt; LOCKED
+ *  LOGGED_IN  --logout--&gt; LOGGED_OUT
+ *  LOCKED     --admin unlock--&gt; LOGGED_OUT
+ */
+public class UserAccount {
+    public static final int MAX_FAILED_ATTEMPTS = 3;
+
+    private final String username;
+    private final String passwordHash;
+<span class="fc" id="L20">    private AccountState state = AccountState.LOGGED_OUT;</span>
+<span class="fc" id="L21">    private int failedAttempts = 0;</span>
+
+<span class="fc" id="L23">    public UserAccount(String username, String password) {</span>
+<span class="pc bpc" id="L24" title="1 of 4 branches missed.">        if (password == null || password.length() &lt; 8) {</span>
+<span class="fc" id="L25">            throw new ValidationException(&quot;Password must be at least 8 characters&quot;);</span>
+        }
+<span class="fc" id="L27">        this.username = username;</span>
+<span class="fc" id="L28">        this.passwordHash = hash(password);</span>
+<span class="fc" id="L29">    }</span>
+
+    public boolean login(String password) {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (state == AccountState.LOCKED) {</span>
+<span class="fc" id="L33">            throw new IllegalStateException(&quot;Account is locked&quot;);</span>
+        }
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (state == AccountState.LOGGED_IN) {</span>
+<span class="fc" id="L36">            throw new IllegalStateException(&quot;Already logged in&quot;);</span>
+        }
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">        if (password != null &amp;&amp; hash(password).equals(passwordHash)) {</span>
+<span class="fc" id="L39">            state = AccountState.LOGGED_IN;</span>
+<span class="fc" id="L40">            failedAttempts = 0;</span>
+<span class="fc" id="L41">            return true;</span>
+        }
+<span class="fc" id="L43">        failedAttempts++;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (failedAttempts &gt;= MAX_FAILED_ATTEMPTS) {</span>
+<span class="fc" id="L45">            state = AccountState.LOCKED;</span>
+        }
+<span class="fc" id="L47">        return false;</span>
+    }
+
+    public void logout() {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (state != AccountState.LOGGED_IN) {</span>
+<span class="fc" id="L52">            throw new IllegalStateException(&quot;Not logged in&quot;);</span>
+        }
+<span class="fc" id="L54">        state = AccountState.LOGGED_OUT;</span>
+<span class="fc" id="L55">    }</span>
+
+    public void unlock() {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (state != AccountState.LOCKED) {</span>
+<span class="fc" id="L59">            throw new IllegalStateException(&quot;Account is not locked&quot;);</span>
+        }
+<span class="fc" id="L61">        state = AccountState.LOGGED_OUT;</span>
+<span class="fc" id="L62">        failedAttempts = 0;</span>
+<span class="fc" id="L63">    }</span>
+
+    public AccountState getState() {
+<span class="fc" id="L66">        return state;</span>
+    }
+
+    public int getFailedAttempts() {
+<span class="fc" id="L70">        return failedAttempts;</span>
+    }
+
+    public String getUsername() {
+<span class="nc" id="L74">        return username;</span>
+    }
+
+    private static String hash(String text) {
+        try {
+<span class="fc" id="L79">            byte[] digest = MessageDigest.getInstance(&quot;SHA-256&quot;).digest(text.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L80">            return HexFormat.of().formatHex(digest);</span>
+<span class="nc" id="L81">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L82">            throw new IllegalStateException(e);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

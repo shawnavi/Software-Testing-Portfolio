@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExpenseTracker.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Expense Tracking and Personal Finance Management System</a> &gt; <a href="index.source.html" class="el_package">com.team.expensetracker</a> &gt; <span class="el_source">ExpenseTracker.java</span></div><h1>ExpenseTracker.java</h1><pre class="source lang-java linenums">package com.team.expensetracker;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+/** Stores expenses and supports add, edit, delete and search. */
+public class ExpenseTracker {
+    private final ExpenseValidator validator;
+<span class="fc" id="L13">    private final List&lt;Expense&gt; expenses = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L14">    private int nextId = 1;</span>
+
+<span class="fc" id="L16">    public ExpenseTracker(ExpenseValidator validator) {</span>
+<span class="fc" id="L17">        this.validator = validator;</span>
+<span class="fc" id="L18">    }</span>
+
+    public Expense addExpense(BigDecimal amount, Category category, String description, LocalDate date) {
+<span class="fc" id="L21">        validator.validate(amount, category, description, date);</span>
+<span class="fc" id="L22">        Expense expense = new Expense(nextId++, amount, category, description.trim(), date);</span>
+<span class="fc" id="L23">        expenses.add(expense);</span>
+<span class="fc" id="L24">        return expense;</span>
+    }
+
+    public Expense updateExpense(int id, BigDecimal amount, Category category, String description, LocalDate date) {
+<span class="fc" id="L28">        Expense existing = findById(id).orElseThrow(() -&gt; new ValidationException(&quot;Expense &quot; + id + &quot; not found&quot;));</span>
+<span class="fc" id="L29">        validator.validate(amount, category, description, date);</span>
+<span class="fc" id="L30">        Expense updated = new Expense(existing.id(), amount, category, description.trim(), date);</span>
+<span class="fc" id="L31">        expenses.set(expenses.indexOf(existing), updated);</span>
+<span class="fc" id="L32">        return updated;</span>
+    }
+
+    public void deleteExpense(int id) {
+<span class="fc" id="L36">        Expense existing = findById(id).orElseThrow(() -&gt; new ValidationException(&quot;Expense &quot; + id + &quot; not found&quot;));</span>
+<span class="fc" id="L37">        expenses.remove(existing);</span>
+<span class="fc" id="L38">    }</span>
+
+    public Optional&lt;Expense&gt; findById(int id) {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        return expenses.stream().filter(e -&gt; e.id() == id).findFirst();</span>
+    }
+
+    public List&lt;Expense&gt; getAll() {
+<span class="fc" id="L45">        return expenses.stream().sorted(Comparator.comparing(Expense::date)).toList();</span>
+    }
+
+    public List&lt;Expense&gt; findByCategory(Category category) {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        return expenses.stream().filter(e -&gt; e.category() == category).toList();</span>
+    }
+
+    /** Returns expenses whose date is between start and end, both inclusive. */
+    public List&lt;Expense&gt; findBetween(LocalDate start, LocalDate end) {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (start.isAfter(end)) {</span>
+<span class="fc" id="L55">            throw new ValidationException(&quot;Start date must not be after end date&quot;);</span>
+        }
+<span class="fc" id="L57">        return expenses.stream()</span>
+<span class="pc bpc" id="L58" title="1 of 4 branches missed.">                .filter(e -&gt; !e.date().isBefore(start) &amp;&amp; !e.date().isAfter(end))</span>
+<span class="fc" id="L59">                .sorted(Comparator.comparing(Expense::date))</span>
+<span class="fc" id="L60">                .toList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

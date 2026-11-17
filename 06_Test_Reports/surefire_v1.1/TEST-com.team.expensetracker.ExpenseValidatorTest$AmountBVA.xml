@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.003" tests="6" errors="0" skipped="0" failures="0">
+  <testcase name="TC-BVA-05 maximum 1,000,000.00 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.001"/>
+  <testcase name="TC-BVA-02 minimum 0.01 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-06 just above maximum 1,000,000.01 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-03 just above minimum 0.02 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-04 just below maximum 999,999.99 is accepted" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.0"/>
+  <testcase name="TC-BVA-01 just below minimum 0.00 is rejected" classname="com.team.expensetracker.ExpenseValidatorTest$AmountBVA" time="0.001"/>
+</testsuite>
