@@ -13,7 +13,7 @@
 | # | Name | Roll / Register No. | Role in the project |
 |---|---|---|---|
 | 1 | Shawn Avinash Robin | 1MS23IS114 | Test lead – test plan, JUnit automation, coverage, summary report |
-| 2 | Ronnie Thomson | 1MS23IS103 | Test designer – EP, BVA, defect reports |
+| 2 | Ronnie Thomson | 1MS23IS103 | Test designer – EP, BVA, defect reports, documentary |
 | 3 | SriHari | 1MS23IS121 | Test designer – decision table, state transition, functional test cases |
 
 ---
