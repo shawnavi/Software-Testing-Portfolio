@@ -74,6 +74,7 @@ flowchart LR
 | [05_Test_Automation](05_Test_Automation) | Application source code, JUnit 5 test scripts, how to run them |
 | [06_Test_Reports](06_Test_Reports) | Test execution summary, retest log, JaCoCo coverage report |
 | [07_Screenshots](07_Screenshots) | Screenshots of test runs and reports |
+| [08_Frontend](08_Frontend) | Web page for the app, running on the tested Java classes |
 | [Conclusion.md](Conclusion.md) | What we learned and the final result |
 
 ## How to run the tests
@@ -86,3 +87,14 @@ mvn clean verify
 ```
 
 The coverage report is created at `target/site/jacoco/index.html`.
+
+## How to run the web app
+
+From the repository root, compile once and start the server, then open http://localhost:8090 (login `student01` / `Budget@2026`):
+
+```bash
+mvn -q -f 05_Test_Automation/expense-tracker/pom.xml compile
+java -cp 05_Test_Automation/expense-tracker/target/classes 08_Frontend/WebApp.java
+```
+
+Details in [08_Frontend/README.md](08_Frontend/README.md).

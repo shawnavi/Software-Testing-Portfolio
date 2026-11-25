@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expense Tracker</title>
+<style>
+:root {
+  --bg: #f5f6f8; --card: #ffffff; --text: #1b1f24; --muted: #5f6b7a; --line: #e2e6eb;
+  --accent: #2f6fb0; --accent-soft: #e8f0f9;
+  --good: #2e7d4f; --good-soft: #e5f3ea; --warn: #b26a00; --warn-soft: #fff3df;
+  --bad: #c0392b; --bad-soft: #fbe9e7; --none: #6b7280; --none-soft: #eef0f2;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171b; --card: #1d2127; --text: #e8eaed; --muted: #9aa4b1; --line: #2c323a;
+    --accent: #6ea8e6; --accent-soft: #1f2b3a;
+    --good: #5cc28a; --good-soft: #1b2e24; --warn: #f0b04f; --warn-soft: #33291a;
+    --bad: #ef7a6c; --bad-soft: #3a2220; --none: #9aa4b1; --none-soft: #262b31;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+header { background: var(--card); border-bottom: 1px solid var(--line); }
+.bar { max-width: 1040px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: center; gap: 16px; }
+.brand { font-weight: 700; font-size: 17px; }
+.brand span { color: var(--accent); }
+.spacer { flex: 1; }
+nav { display: flex; gap: 4px; }
+nav button { background: none; border: 0; padding: 8px 12px; border-radius: 8px; color: var(--muted); font: inherit; cursor: pointer; }
+nav button.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+main { max-width: 1040px; margin: 0 auto; padding: 20px 16px 48px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+h2 { font-size: 16px; margin: 0 0 12px; }
+.grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-items: end; }
+label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; }
+button.primary, button.ghost, button.danger { padding: 8px 14px; border-radius: 8px; font: inherit; cursor: pointer; border: 1px solid transparent; }
+button.primary { background: var(--accent); color: #fff; }
+button.ghost { background: transparent; border-color: var(--line); color: var(--text); }
+button.danger { background: transparent; color: var(--bad); border-color: var(--line); }
+button.small { padding: 4px 10px; font-size: 13px; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); }
+th { font-size: 12px; color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.WITHIN, .LOGGED_IN { background: var(--good-soft); color: var(--good); }
+.WARNING { background: var(--warn-soft); color: var(--warn); }
+.EXCEEDED, .LOCKED { background: var(--bad-soft); color: var(--bad); }
+.NO_BUDGET, .LOGGED_OUT { background: var(--none-soft); color: var(--none); }
+.budgets { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.budget { border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.budget .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.track { height: 8px; background: var(--none-soft); border-radius: 4px; overflow: hidden; margin: 8px 0 6px; }
+.fill { height: 100%; border-radius: 4px; }
+.fill.WITHIN { background: var(--good); } .fill.WARNING { background: var(--warn); } .fill.EXCEEDED { background: var(--bad); }
+.muted { color: var(--muted); font-size: 13px; }
+.stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.stat { border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.stat .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.hbar { display: grid; grid-template-columns: 130px 1fr 110px; gap: 10px; align-items: center; margin: 8px 0; }
+.hbar .b { height: 14px; background: var(--accent); border-radius: 3px; }
+.login { max-width: 400px; margin: 60px auto; }
+.state-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--none-soft); border: 1px solid var(--line); }
+.dot.on { background: var(--bad); border-color: var(--bad); }
+.hint { background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; font-size: 13px; margin-top: 14px; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); padding: 10px 16px; border-radius: 10px;
+  background: var(--text); color: var(--card); font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; }
+.toast.show { opacity: 1; }
+.toast.err { background: var(--bad); color: #fff; }
+.row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+.hidden { display: none !important; }
+.switch { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.switch input { width: auto; }
+@media (max-width: 640px) {
+  .bar { flex-wrap: wrap; } nav { order: 3; width: 100%; overflow-x: auto; }
+  .hbar { grid-template-columns: 90px 1fr 90px; }
+  .hide-sm { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="hidden" id="appHeader">
+  <div class="bar">
+    <div class="brand">Expense <span>Tracker</span></div>
+    <nav>
+      <button data-tab="expenses" class="active">Expenses</button>
+      <button data-tab="budgets">Budgets</button>
+      <button data-tab="report">Monthly report</button>
+    </nav>
+    <div class="spacer"></div>
+    <span class="muted" id="who"></span>
+    <button class="ghost small" id="logoutBtn">Log out</button>
+  </div>
+</header>
+
+<!-- ============ LOGIN (M5) ============ -->
+<section id="loginView" class="login hidden">
+  <div class="card">
+    <div class="brand" style="font-size:22px;margin-bottom:4px">Expense <span>Tracker</span></div>
+    <p class="muted" style="margin-top:0">Personal finance management</p>
+    <div class="state-row">
+      <div>Account state: <span class="pill" id="stateBadge">LOGGED_OUT</span></div>
+      <div title="Wrong password attempts" class="dots" id="dots"></div>
+    </div>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input id="username" value="student01" readonly>
+      <div style="height:10px"></div>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="off">
+      <div style="height:14px"></div>
+      <button class="primary" style="width:100%">Log in</button>
+    </form>
+    <div id="lockedBox" class="hidden" style="margin-top:14px">
+      <p style="color:var(--bad);margin:0 0 8px">Account locked after 3 wrong passwords.</p>
+      <button class="ghost" id="unlockBtn" style="width:100%">Admin: unlock account</button>
+    </div>
+    <div class="hint">Demo account: <b>student01</b> / <b>Budget@2026</b>. Three wrong passwords in a row lock it.</div>
+  </div>
+</section>
+
+<main id="appMain" class="hidden">
+
+<!-- ============ EXPENSES (M1, M2) ============ -->
+<section data-view="expenses">
+  <div class="card">
+    <h2 id="formTitle">Add an expense</h2>
+    <form id="expenseForm" class="grid">
+      <div><label for="amount">Amount (₹)</label><input id="amount" placeholder="0.00" inputmode="decimal"></div>
+      <div><label for="category">Category</label><select id="category"></select></div>
+      <div style="grid-column: span 2"><label for="description">Description</label><input id="description" placeholder="e.g. Groceries"></div>
+      <div><label for="date">Date</label><input id="date" type="date"></div>
+      <div class="row-actions" style="justify-content:flex-start">
+        <button class="primary" id="saveBtn">Add</button>
+        <button type="button" class="ghost hidden" id="cancelEdit">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Expenses</h2>
+    <div class="grid" style="margin-bottom:12px">
+      <div><label for="fCat">Category</label><select id="fCat"><option value="">All</option></select></div>
+      <div><label for="fFrom">From</label><input id="fFrom" type="date"></div>
+      <div><label for="fTo">To</label><input id="fTo" type="date"></div>
+      <div class="row-actions" style="justify-content:flex-start">
+        <button class="primary" id="filterBtn">Search</button>
+        <button class="ghost" id="clearBtn">Clear</button>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Category</th><th class="hide-sm">Description</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="expenseRows"></tbody>
+      <tfoot><tr><th colspan="3" class="hide-sm">Total shown</th><th class="num" id="shownTotal"></th><th></th></tr></tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- ============ BUDGETS (M3) ============ -->
+<section data-view="budgets" class="hidden">
+  <div class="card">
+    <h2>Set a monthly budget</h2>
+    <form id="budgetForm" class="grid">
+      <div><label for="bMonth">Month</label><input id="bMonth" type="month"></div>
+      <div><label for="bCat">Category</label><select id="bCat"></select></div>
+      <div><label for="bLimit">Budget (₹)</label><input id="bLimit" placeholder="1000.00" inputmode="decimal"></div>
+      <div><button class="primary">Save budget</button></div>
+    </form>
+    <div style="margin-top:14px" class="switch"><input type="checkbox" id="alertsToggle"><label for="alertsToggle" style="margin:0;font-size:14px;color:var(--text)">Send alerts at 80 % and above</label></div>
+  </div>
+  <div class="card">
+    <h2 id="budgetTitle">Budgets</h2>
+    <p class="muted" style="margin-top:-6px">Within: below 80 % · Warning: 80 – 100 % · Exceeded: above 100 %</p>
+    <div class="budgets" id="budgetCards"></div>
+  </div>
+</section>
+
+<!-- ============ REPORT (M4) ============ -->
+<section data-view="report" class="hidden">
+  <div class="card">
+    <div class="grid">
+      <div><label for="rMonth">Month</label><input id="rMonth" type="month"></div>
+      <div><label for="rIncome">Monthly income (₹)</label><input id="rIncome" value="25000" inputmode="decimal"></div>
+      <div><button class="primary" id="reportBtn">Show report</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2 id="reportTitle">Monthly report</h2>
+    <div class="stats">
+      <div class="stat"><div class="muted">Income</div><div class="v" id="sIncome">–</div></div>
+      <div class="stat"><div class="muted">Spent</div><div class="v" id="sTotal">–</div></div>
+      <div class="stat"><div class="muted">Saved</div><div class="v" id="sSavings">–</div></div>
+      <div class="stat"><div class="muted">Savings rate</div><div class="v" id="sRate">–</div></div>
+    </div>
+    <h2 style="margin-top:22px">Spending by category</h2>
+    <div id="breakdown"></div>
+  </div>
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CATEGORIES = ["FOOD","TRANSPORT","RENT","UTILITIES","ENTERTAINMENT","HEALTH","SHOPPING","EDUCATION","OTHER"];
+const $ = id => document.getElementById(id);
+const nice = c => c.charAt(0) + c.slice(1).toLowerCase();
+const inr = v => "₹" + Number(v).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const thisMonth = () => new Date().toISOString().slice(0, 7);
+const today = () => new Date().toLocaleDateString("en-CA");
+let editingId = null;
+let shown = {};
+
+async function api(path, data, method) {
+  const opts = { method: method || (data ? "POST" : "GET") };
+  if (data) { opts.body = new URLSearchParams(data); }
+  const res = await fetch("/api/" + path, opts);
+  const json = await res.json();
+  if (!res.ok) {
+    if (res.status === 401) { await showAccount(); }
+    throw new Error(json.error || "Request failed");
+  }
+  return json;
+}
+
+let toastTimer;
+function toast(msg, isErr) {
+  const t = $("toast");
+  t.textContent = msg; t.className = "toast show" + (isErr ? " err" : "");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.className = "toast", 3200);
+}
+const fail = e => toast(e.message, true);
+
+// ---------- login (M5)
+async function showAccount(acc) {
+  acc = acc || await api("account");
+  const loggedIn = acc.state === "LOGGED_IN";
+  $("loginView").classList.toggle("hidden", loggedIn);
+  $("appHeader").classList.toggle("hidden", !loggedIn);
+  $("appMain").classList.toggle("hidden", !loggedIn);
+  $("stateBadge").textContent = acc.state; $("stateBadge").className = "pill " + acc.state;
+  $("dots").innerHTML = Array.from({ length: acc.maxAttempts }, (_, i) =>
+    `<span class="dot ${i < acc.failedAttempts ? "on" : ""}"></span>`).join("");
+  $("lockedBox").classList.toggle("hidden", acc.state !== "LOCKED");
+  $("loginForm").querySelector("button").disabled = acc.state === "LOCKED";
+  $("who").textContent = acc.username;
+  if (loggedIn) { loadExpenses(); }
+}
+
+$("loginForm").onsubmit = async e => {
+  e.preventDefault();
+  try {
+    const r = await api("login", { password: $("password").value });
+    $("password").value = "";
+    if (!r.ok) {
+      toast(r.account.state === "LOCKED" ? "Wrong password. Account is now LOCKED." :
+        `Wrong password (${r.account.failedAttempts} of ${r.account.maxAttempts})`, true);
+    }
+    showAccount(r.account);
+  } catch (err) { fail(err); }
+};
+$("unlockBtn").onclick = () => api("unlock", {}).then(a => { toast("Account unlocked"); showAccount(a); }).catch(fail);
+$("logoutBtn").onclick = () => api("logout", {}).then(showAccount).catch(fail);
+
+// ---------- tabs
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("active", x === b));
+  document.querySelectorAll("[data-view]").forEach(v => v.classList.toggle("hidden", v.dataset.view !== b.dataset.tab));
+  if (b.dataset.tab === "budgets") loadBudgets();
+  if (b.dataset.tab === "report") loadReport();
+  if (b.dataset.tab === "expenses") loadExpenses();
+});
+
+// ---------- expenses (M1, M2)
+function fillSelects() {
+  const opts = CATEGORIES.map(c => `<option value="${c}">${nice(c)}</option>`).join("");
+  $("category").innerHTML = `<option value="">Choose…</option>` + opts;
+  $("bCat").innerHTML = opts;
+  $("fCat").innerHTML = `<option value="">All</option>` + opts;
+}
+
+function resetForm() {
+  editingId = null;
+  $("expenseForm").reset(); $("date").value = today();
+  $("formTitle").textContent = "Add an expense"; $("saveBtn").textContent = "Add";
+  $("cancelEdit").classList.add("hidden");
+}
+
+$("expenseForm").onsubmit = async e => {
+  e.preventDefault();
+  const data = { amount: $("amount").value, category: $("category").value,
+                 description: $("description").value, date: $("date").value };
+  try {
+    if (editingId) { await api(`expenses/${editingId}/edit`, data); toast("Expense updated"); }
+    else { await api("expenses", data); toast("Expense added"); }
+    resetForm(); loadExpenses();
+  } catch (err) { fail(err); }
+};
+$("cancelEdit").onclick = resetForm;
+
+async function loadExpenses() {
+  const q = new URLSearchParams();
+  if ($("fCat").value) q.set("category", $("fCat").value);
+  if ($("fFrom").value && $("fTo").value) { q.set("from", $("fFrom").value); q.set("to", $("fTo").value); }
+  try {
+    const list = await api("expenses" + (q.toString() ? "?" + q : ""));
+    shown = Object.fromEntries(list.map(e => [e.id, e]));
+    $("expenseRows").innerHTML = list.length ? list.slice().reverse().map(e => `
+      <tr>
+        <td>${e.date.split("-").reverse().join("-")}</td>
+        <td>${nice(e.category)}</td>
+        <td class="hide-sm">${escapeHtml(e.description)}</td>
+        <td class="num">${inr(e.amount)}</td>
+        <td><div class="row-actions">
+          <button class="ghost small" onclick="startEdit(${e.id})">Edit</button>
+          <button class="danger small" onclick="removeExpense(${e.id})">Delete</button>
+        </div></td>
+      </tr>`).join("") : `<tr><td colspan="5" class="muted">No expenses found.</td></tr>`;
+    $("shownTotal").textContent = inr(list.reduce((s, e) => s + Number(e.amount), 0));
+  } catch (err) { fail(err); }
+}
+
+window.startEdit = id => {
+  const e = shown[id];
+  editingId = e.id;
+  $("amount").value = e.amount; $("category").value = e.category;
+  $("description").value = e.description; $("date").value = e.date;
+  $("formTitle").textContent = "Edit expense #" + e.id; $("saveBtn").textContent = "Save";
+  $("cancelEdit").classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+window.removeExpense = id => {
+  if (!confirm("Delete this expense?")) return;
+  api(`expenses/${id}/delete`, {}).then(() => { toast("Expense deleted"); loadExpenses(); }).catch(fail);
+};
+$("filterBtn").onclick = () => {
+  if (($("fFrom").value && !$("fTo").value) || (!$("fFrom").value && $("fTo").value)) {
+    toast("Choose both a From and a To date", true); return;
+  }
+  loadExpenses();
+};
+$("clearBtn").onclick = () => { $("fCat").value = ""; $("fFrom").value = ""; $("fTo").value = ""; loadExpenses(); };
+
+// ---------- budgets (M3)
+async function loadBudgets() {
+  try { renderBudgets(await api("budgets?month=" + $("bMonth").value)); } catch (err) { fail(err); }
+}
+function renderBudgets(b) {
+  $("alertsToggle").checked = b.alertsOn;
+  const [y, m] = b.month.split("-");
+  $("budgetTitle").textContent = "Budgets for " + new Date(y, m - 1).toLocaleString("en-IN", { month: "long", year: "numeric" });
+  $("budgetCards").innerHTML = b.items.length ? b.items.map(i => `
+    <div class="budget">
+      <div class="top"><b>${nice(i.category)}</b><span class="pill ${i.status}">${i.status.replace("_", " ")}</span></div>
+      ${i.limit === null
+        ? `<div class="muted">Spent ${inr(i.spent)} · no budget set</div>`
+        : `<div class="track"><div class="fill ${i.status}" style="width:${Math.min(100, Number(i.percent))}%"></div></div>
+           <div class="muted">${inr(i.spent)} of ${inr(i.limit)} · ${Number(i.percent).toFixed(2)} %</div>`}
+      ${i.alert ? `<div style="margin-top:6px;color:var(--warn);font-size:13px;font-weight:600">Alert sent</div>` : ""}
+    </div>`).join("") : `<p class="muted">No budgets or spending this month.</p>`;
+}
+$("budgetForm").onsubmit = async e => {
+  e.preventDefault();
+  try {
+    renderBudgets(await api("budgets", { month: $("bMonth").value, category: $("bCat").value, limit: $("bLimit").value }));
+    $("bLimit").value = ""; toast("Budget saved");
+  } catch (err) { fail(err); }
+};
+$("bMonth").onchange = loadBudgets;
+$("alertsToggle").onchange = () =>
+  api("alerts", { enabled: $("alertsToggle").checked, month: $("bMonth").value }).then(renderBudgets).catch(fail);
+
+// ---------- report (M4)
+async function loadReport() {
+  try {
+    const r = await api(`report?month=${$("rMonth").value}&income=${encodeURIComponent($("rIncome").value)}`);
+    const [y, m] = r.month.split("-");
+    $("reportTitle").textContent = "Report for " + new Date(y, m - 1).toLocaleString("en-IN", { month: "long", year: "numeric" });
+    $("sIncome").textContent = inr(r.income); $("sTotal").textContent = inr(r.total);
+    $("sSavings").textContent = inr(r.savings); $("sSavings").style.color = Number(r.savings) < 0 ? "var(--bad)" : "var(--good)";
+    $("sRate").textContent = Number(r.savingsRate).toFixed(2) + " %";
+    const max = Math.max(1, ...r.breakdown.map(b => Number(b.amount)));
+    $("breakdown").innerHTML = r.breakdown.length ? r.breakdown
+      .sort((a, b) => b.amount - a.amount)
+      .map(b => `<div class="hbar"><span>${nice(b.category)}</span>
+        <div><div class="b" style="width:${Number(b.amount) / max * 100}%"></div></div>
+        <span class="num" style="text-align:right">${inr(b.amount)}</span></div>`).join("")
+      : `<p class="muted">No expenses this month.</p>`;
+  } catch (err) { fail(err); }
+}
+$("reportBtn").onclick = loadReport;
+$("rMonth").onchange = loadReport;
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// ---------- start
+fillSelects(); resetForm();
+$("bMonth").value = thisMonth(); $("rMonth").value = thisMonth();
+showAccount().catch(fail);
+</script>
+</body>
+</html>
