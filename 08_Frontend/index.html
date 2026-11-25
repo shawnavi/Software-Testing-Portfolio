@@ -251,7 +251,11 @@ async function showAccount(acc) {
   $("lockedBox").classList.toggle("hidden", acc.state !== "LOCKED");
   $("loginForm").querySelector("button").disabled = acc.state === "LOCKED";
   $("who").textContent = acc.username;
-  if (loggedIn) { loadExpenses(); }
+  if (loggedIn) {
+    // A link such as /#budgets opens that tab directly
+    const tab = document.querySelector(`nav button[data-tab="${location.hash.slice(1)}"]`);
+    if (tab) { tab.click(); } else { loadExpenses(); }
+  }
 }
 
 $("loginForm").onsubmit = async e => {
