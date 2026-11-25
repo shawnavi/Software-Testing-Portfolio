@@ -78,7 +78,7 @@ flowchart LR
 
 ## How to run the tests
 
-Requirements: Java 17 or newer and Maven 3.8 or newer.
+Requirements: Java 17 or newer and Maven 3.8 or newer.....
 
 ```bash
 cd 05_Test_Automation/expense-tracker
